@@ -1,21 +1,39 @@
 const puppeteer = require('puppeteer');
 const readline = require('readline');
-let input;
 
 // Create an interface to read input from the console
 const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
+    input: process.stdin,
+    output: process.stdout
+  });
+  
+  // Array to store inputs
+  let inputs = [];
+  
+  // Function to handle user input
+  function handleInput(input) {
+      // Check if the input is 'Q', if yes, close the interface and print the inputs
+      if (input.toUpperCase() === 'Q') {
+          rl.close();
+          return;
+      }
+      
+      // Add input to the array
+      inputs.push(input);
+      
+      // Prompt the user for the next input
+      rl.question('Enter next input or type "Q" to finish: ', handleInput);
+  }
+  
+  // Start by prompting the user for input
+  rl.question('Enter input or type "Q" to finish: ', handleInput);
 
-// Prompt the user for input
-rl.question('Enter which class to scan for: ', (input) => {
-    // Print the input back to the console
-    console.log(`You entered: ${input}`);
+  let input = "IFT232";
+  
+  // When the interface is closed, print the inputs
+  rl.on('close', () => {
 
-    // Close the interface
-    rl.close();
-
+    console.log(`Classes to check for: ${inputs.join(', ')}`);
 
     // WebSocket endpoint of the Chrome instance
     const wsEndpoint = 'ws://127.0.0.1:9222/devtools/browser/0ade2b44-5b68-41e7-8cd4-43ef185dfa5e';
@@ -42,12 +60,15 @@ rl.question('Enter which class to scan for: ', (input) => {
             const page = await browser.newPage();
             console.log('New page created.');
 
-            let tables;
+                let previousTrState = [];
 
-            let previousTrState;
+                let currentTrState = [];
 
             // Function to compare table contents
             async function compareTableContents() {
+
+                let tables;
+
                 // Navigate to the webpage
                 await page.goto(URL, { waitUntil: 'domcontentloaded' });
                 console.log('Navigated to:', URL);
@@ -63,35 +84,42 @@ rl.question('Enter which class to scan for: ', (input) => {
             
                 // Extract <tr> elements
                 const trElements = contentWithoutATags.match(/<tr\b[^>]*>[\s\S]*?<\/tr>/gi);
-            
-                // Filter <tr> elements containing the specified keyword
-                const trElementsWithKeyword = trElements.filter(tr => tr.includes(input));
-            
-                // Check if any <tr> elements with the keyword are found
-                if (trElementsWithKeyword.length === 0) {
-                    console.log(`No <tr> elements containing ${input} found on the page.`);
-                    return;
-                }
-            
-                // Log the number of <tr> elements with the keyword
-                console.log(`Number of <tr> elements containing ${input}:`, trElementsWithKeyword.length);
-            
-                // Perform comparison logic for <tr> elements with the keyword
-                const currentTrState = trElementsWithKeyword.join('');
-                if (previousTrState === currentTrState) {
-                    console.log('No difference');
-                } else {
-                    if (previousTrState) {
-                        console.log('Difference');
-                        // Log the HTML content of each <tr> element with the keyword if there are differences
-                        trElementsWithKeyword.forEach((trElement, index) => {
-                            console.log(`Tr Element ${index + 1}:\n`, trElement);
-                        });
+
+                inputs.forEach((input, index) => {
+
+                    // Filter <tr> elements containing the specified keyword
+                    const trElementsWithKeyword = trElements.filter(tr => tr.includes(input));
+                
+                    // Check if any <tr> elements with the keyword are found
+                    if (trElementsWithKeyword.length === 0) {
+                        console.log(`No <tr> elements containing ${input} found on the page.`);
+                        return;
                     }
-                }
-            
-                // Update previous state
-                previousTrState = currentTrState;
+                
+                    // Log the number of <tr> elements with the keyword
+                    console.log(`Number of <tr> elements containing ${input}:`, trElementsWithKeyword.length);
+                
+                    // Perform comparison logic for <tr> elements with the keyword
+
+                    currentTrState[index] = trElementsWithKeyword.join('');
+
+                    if (previousTrState[index] === currentTrState[index]) {
+                        console.log('No difference');
+                    } else {
+                        if (previousTrState[index]) {
+                            console.log('Difference');
+                            // Log the HTML content of each <tr> element with the keyword if there are differences
+                            trElementsWithKeyword.forEach((trElement, index) => {
+                                console.log(`Tr Element ${index + 1}:\n`, trElement);
+                            });
+                        }
+                    }
+                
+                    // Update previous state
+                    previousTrState[index] = currentTrState[index];
+
+                });
+
             }
             
             
@@ -128,6 +156,9 @@ rl.question('Enter which class to scan for: ', (input) => {
     // Check the connection
     checkConnection();
 
+    // http://127.0.0.1:9222/json/version
+
+    
 });
 
-// http://127.0.0.1:9222/json/version
+
