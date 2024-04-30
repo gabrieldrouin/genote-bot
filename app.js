@@ -38,7 +38,6 @@ async function main() {
         while (true) {
             await compareTableContents();
             await new Promise(resolve => setTimeout(resolve, 3000)); 
-            discordBot.sendMessage("Hello");
         }
     }
     await checkForDifferences();
