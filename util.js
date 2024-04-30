@@ -1,3 +1,5 @@
+const discordBot = require('./discordsetup');
+
 function removeATags(html) {
   if (html) {
       const regex = /<a\b[^>]*>[\s\S]*?<\/a>/gi;
@@ -24,6 +26,11 @@ function getClassName(element) {
   return match ? match[0] : null;
 }
 
+async function cleanup() {
+  console.log("Notifying bot before exit...");
+  await discordBot.sendMessage("Bot stopped.");
+};
+
 module.exports = {
-  getClasses, getClassName
+  getClasses, getClassName, cleanup
 }

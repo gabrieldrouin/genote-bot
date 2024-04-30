@@ -1,8 +1,14 @@
 const puppeteer = require('puppeteer');
-const util = require('./util');
+const { getClasses, getClassName, cleanup } = require('./util');
 const fromChrome = require('./chromesetup');
 const discordBot = require('./discordsetup');
 const { URL, refreshTime } = require('./config');
+
+process.on('exit', cleanup);
+process.on('SIGINT', async () => {
+    await cleanup();
+    process.exit();
+});
 
 (async () => {
     const wsEndpoint = await fromChrome.getWsEndpoint();
@@ -14,14 +20,14 @@ const { URL, refreshTime } = require('./config');
     let curr = [];
 
     console.log("A new Genote tab will open. Do not close it.");
-    discordBot.sendMessage("Bot started.");
+    await discordBot.sendMessage("Bot started.");
 
     try {
         async function compareTableContents() {
-            const elements = await util.getClasses(page, URL);
+            const elements = await getClasses(page, URL);
             elements.forEach((element, index) => {
                 curr[index] = element;
-                const className = util.getClassName(element);
+                const className = getClassName(element);
 
                 if (!className) return;
                 if (prev[index] === curr[index]) {
@@ -43,8 +49,6 @@ const { URL, refreshTime } = require('./config');
 
         await checkForDifferences();
     } finally {
-        console.log("Notifying bot before exit...");
-        discordBot.sendMessage("Bot stopped.");
+        await cleanup();
     }
 })();
-
