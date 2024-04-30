@@ -27,7 +27,7 @@ npm install
 
 - Wait for all the dependencies to be installed
 - Rename `config.js.example` to `config.js`
-- From [Discord's developer portal](https://nodejs.org/en/)https://discord.com/developers/applications), create a new application
+- From [Discord's developer portal](https://discord.com/developers/applications), create a new application
 - In the left column, select `Bot`, then `Reset Token`
 - In `config.js`, insert the new Token in the `discordBotToken` field
 - From the developer portal, in the left column, select `OAuth2`
