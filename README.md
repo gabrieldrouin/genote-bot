@@ -14,7 +14,7 @@ is published on a student's Genote account.
 Genote is Université de Sherbrooke's online plateform for publishing
 and accessing students grades.
 
-## 🚀 Getting Started
+## ⚙️ How to configure
 
 - Install [Node.js](https://nodejs.org/en/) v20.11.0 or higher
 - Open the terminal and run the following commands
