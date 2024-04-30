@@ -14,13 +14,16 @@ function getTrElements(htmlContent) {
 async function getClasses(page, URL) {
   await page.goto(URL, { waitUntil: 'domcontentloaded' });
   console.log('Navigated to:', URL);
-
   await new Promise(resolve => setTimeout(resolve, 2000));
-
   const htmlContent = await page.content();
   return getTrElements(htmlContent).sort();
 }
 
+function getClassName(element) {
+  const match = element.match(/[A-Z]{3}\d{3}/);
+  return match ? match[0] : null;
+}
+
 module.exports = {
-  getClasses
+  getClasses, getClassName
 }
