@@ -6,9 +6,9 @@ const client = new Discord.Client({ intents: [
 ]})
 client.login(discordBotToken);
 
-async function sendMessage(element) {
+async function sendMessage(message) {
   const channel = await client.channels.fetch(channelId);
-  await channel.send(`Nouvelle note publiée pour le cours ${element}.`);
+  await channel.send(message);
 }
 
 module.exports = {
