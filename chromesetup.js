@@ -1,10 +1,10 @@
 const { exec } = require('child_process');
 const axios = require('axios');
 const prompt = require("prompt-sync")({ sigint: true });
-const { restartChromePrompt } = require('./config');
+const { prompts } = require('./config');
 
 function getWsEndpoint() {
-	if (restartChromePrompt) {
+	if (prompts) {
 		return new Promise((resolve, reject) => {
 
 			const res = prompt("Chrome must be restarted before continuing. Do you wish to proceed? (Y/N): ");
@@ -65,9 +65,6 @@ function getWsEndpoint() {
 	}
 	else {
 		return new Promise((resolve, reject) => {
-
-			prompt("Log into Genote, then press any key to continue.");
-
 			// Make a GET request to fetch the webSocketDebuggerUrl
 			setTimeout(() => {
 				axios.get('http://127.0.0.1:9222/json/version')

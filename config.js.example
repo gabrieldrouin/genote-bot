@@ -1,6 +1,6 @@
 module.exports = {
-  URL: 'https://www.usherbrooke.ca/genote/application/etudiant/cours.php',
+  URL: '',
   discordBotToken: '',
   channelId: '',
-  restartChromePrompt: true
+  prompts: true
 };
