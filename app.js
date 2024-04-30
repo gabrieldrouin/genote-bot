@@ -24,10 +24,9 @@ rl.on('close', () => {
 
     console.log(`Classes to check for: ${inputs.join(', ')}`);
 
+    // Get websocket endpoint at http://127.0.0.1:9222/json/version
     const wsEndpoint = 'ws://127.0.0.1:9222/devtools/browser/5b984610-5b78-415a-9829-e78b863d1a96';
-
     const URL = 'https://www.usherbrooke.ca/genote/application/etudiant/cours.php';
-
     let browser;
 
     async function checkConnection() {
@@ -36,7 +35,8 @@ rl.on('close', () => {
                 browserWSEndpoint: wsEndpoint,
             })
             const page = await browser.newPage();
-
+            
+            // <tr> tags content
             let previousTrState = [];
             let currentTrState = [];
 
@@ -72,32 +72,22 @@ rl.on('close', () => {
                             });
                         }
                     }
-                
-                    // Update previous state
                     previousTrState[index] = currentTrState[index];
-
                 });
-
             }
-            
             async function checkForDifferences() {
                 while (true) {
                     await compareTableContents();
-                    await new Promise(resolve => setTimeout(resolve, 3000)); // Wait for 3 seconds before checking again
+                    await new Promise(resolve => setTimeout(resolve, 3000)); 
                 }
             }
             await checkForDifferences();
+
         } catch (error) {
             console.error('Error:', error);
         } 
     }
-
-    // Check the connection
     checkConnection();
-
-    // http://127.0.0.1:9222/json/version
-
-    
 });
 
 
