@@ -27,18 +27,18 @@ npm install
 
 - Wait for all the dependencies to be installed
 - Rename `config.js.example` to `config.js`
-- From [Discord's developer portal](https://nodejs.org/en/)https://discord.com/developers/applications`config.js`, create a new application
+- From [Discord's developer portal](https://nodejs.org/en/)https://discord.com/developers/applications), create a new application
 - In the left column, select `Bot`, then `Reset Token`
 - In `config.js`, insert the new Token in the `discordBotToken` field
 - From the developer portal, in the left column, select `OAuth2`
 - In the OAuth2 URL Generator section, select `bot`, then below, select `Send Messages` and `Read Message History`
 - Navigate to the generated URL below and add the bot to your server
-- From Discord, in `User Settings`, select `Advanced` and activate Developer Mode
+- From Discord, in `User Settings`, select `Advanced` and activate `Developer Mode`
 - From your Discord server, right-click your preferred text channel and select `Copy Channel ID`
 - In `config.js`, insert the Channel ID in the `channelID` field
 - Save and exit `config.js`
 - From the terminal, type `node app.js` to start the bot
 
 Optionally:
-- In `config.js`, set `restartChromePrompt` to `false` if your chrome instance has remote debugging on port 9222
+- In `config.js`, set `restartChromePrompt` to `false` if your chrome instance is already running with remote debugging on port 9222
 
