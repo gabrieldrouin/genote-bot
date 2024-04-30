@@ -37,7 +37,7 @@ async function main() {
     async function checkForDifferences() {
         while (true) {
             await compareTableContents();
-            await new Promise(resolve => setTimeout(resolve, 3000)); 
+            await new Promise(resolve => setTimeout(resolve, 60000)); 
         }
     }
     await checkForDifferences();
