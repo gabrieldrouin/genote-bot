@@ -1,12 +1,10 @@
-<h1 align="center">
-    <span>Genote-Bot</span>
-</h1>
+# Genote-Bot
 
 <blockquote>
 <p>:memo: <strong>NOTE</strong>: Developed and tested on Windows 10 only</p>
 </blockquote>
 
----
+
 
 ## 🤖 What is Genote Bot?
 
