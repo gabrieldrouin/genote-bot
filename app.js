@@ -2,10 +2,10 @@ const puppeteer = require('puppeteer');
 const util = require('./util');
 const fromChrome = require('./chromesetup');
 const discordBot = require('./discordsetup');
+const { URL } = require('./config');
 
-async function main() {
+(async () => {
     const wsEndpoint = await fromChrome.getWsEndpoint();
-    const URL = 'https://www.usherbrooke.ca/genote/application/etudiant/cours.php';
     const browser = await puppeteer.connect({
         browserWSEndpoint: wsEndpoint,
     })
@@ -16,15 +16,11 @@ async function main() {
     console.log("A new Genote tab will open. Do not close it.");
 
     async function compareTableContents() {
-
         const elements = await util.getClasses(page, URL);
-
         elements.forEach((element, index) => {
-
             curr[index] = element;
             const className = util.getClassName(element);
             if (!className) return;
-
             if (prev[index] === curr[index]) {
                 console.log(`No difference: ${className}`);
             } else if (prev[index]) {
@@ -34,14 +30,14 @@ async function main() {
             prev[index] = curr[index];
         });
     }
+
     async function checkForDifferences() {
         while (true) {
             await compareTableContents();
-            await new Promise(resolve => setTimeout(resolve, 60000)); 
+            await new Promise(resolve => setTimeout(resolve, 30000)); 
         }
     }
-    await checkForDifferences();
-}
-main();
 
+    await checkForDifferences();
+})();
 
