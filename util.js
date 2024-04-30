@@ -11,6 +11,16 @@ function getTrElements(htmlContent) {
   return trElements;
 }
 
+async function getClasses(page, URL) {
+  await page.goto(URL, { waitUntil: 'domcontentloaded' });
+  console.log('Navigated to:', URL);
+
+  await new Promise(resolve => setTimeout(resolve, 2000));
+
+  const htmlContent = await page.content();
+  return getTrElements(htmlContent).sort();
+}
+
 module.exports = {
-  getTrElements
+  getClasses
 }

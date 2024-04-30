@@ -12,6 +12,8 @@
     "axios": "^1.6.8",
     "cheerio": "^1.0.0-rc.12",
     "chrome": "^0.1.0",
+    "prompt": "^1.3.0",
+    "prompt-sync": "^4.2.0",
     "puppeteer": "^22.7.1"
   }
 }

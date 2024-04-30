@@ -40,36 +40,23 @@ function getWsEndpoint() {
                 }
                 console.log("New Chrome instance opened successfully.");
 
-                // Open the specified URL in a new tab
-                exec('start chrome "https://www.usherbrooke.ca/genote/application/etudiant/cours.php"', (error, stdout, stderr) => {
-                    if (error) {
-                        console.error(`Error opening URL in Chrome: ${error.message}`);
-                        reject(error);
-                        return;
-                    }
-                    if (stderr) {
-                        console.error(`Error opening URL in Chrome: ${stderr}`);
-                        reject(stderr);
-                        return;
-                    }
-                    console.log("URL opened in Chrome successfully.");
+				prompt("Log into Genote, then press any key to continue.");
 
-                    prompt("Log into Genote, then press any key to continue.");
-
+                // Make a GET request to fetch the version information
+                setTimeout(() => {
                     // Make a GET request to fetch the version information
-                    setTimeout(() => {
-                        axios.get('http://127.0.0.1:9222/json/version')
-                            .then(response => {
-                                const wsDbUrl = response.data.webSocketDebuggerUrl;
-                                console.log("WebSocket Debugger URL:", wsDbUrl);
-                                resolve(wsDbUrl);
-                            })
-                            .catch(error => {
-                                console.error('Error fetching version information:', error);
-                                reject(error);
-                            });
-                    }, 1000);
-                });
+                    axios.get('http://127.0.0.1:9222/json/version')
+                        .then(response => {
+                            const wsDbUrl = response.data.webSocketDebuggerUrl;
+                            console.log("WebSocket Debugger URL:", wsDbUrl);
+                            // Now you can use the wsDbUrl variable for further processing if needed
+                            resolve(wsDbUrl);
+                        })
+                        .catch(error => {
+                            console.error('Error fetching version information:', error);
+                            reject(error);
+                        });
+                }, 1000);
             });
         });
     });
