@@ -1,5 +1,5 @@
 const puppeteer = require('puppeteer');
-const { getClasses, getClassName, cleanup } = require('./util');
+const { getClasses, getClassName, getDate, getTime, cleanup } = require('./util');
 const fromChrome = require('./chromesetup');
 const discordBot = require('./discordsetup');
 const { URL, refreshTime } = require('./config');
@@ -24,6 +24,7 @@ process.on('SIGINT', async () => {
 
     try {
         async function compareTableContents() {
+            console.log(`Parsed on ${getDate()} at ${getTime()}`)
             const elements = await getClasses(page, URL);
             elements.forEach((element, index) => {
                 curr[index] = element;

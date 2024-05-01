@@ -8,9 +8,17 @@ function removeATags(html) {
 }
 
 function getTrElements(htmlContent) {
-  const contentWithoutATags = removeATags(htmlContent);
-  const trElements = contentWithoutATags.match(/<tr\b[^>]*>[\s\S]*?<\/tr>/gi);
-  return trElements;
+  try {
+    const contentWithoutATags = removeATags(htmlContent);
+    const trElements = contentWithoutATags.match(/<tr\b[^>]*>[\s\S]*?<\/tr>/gi);
+    if (trElements === null) {
+      throw new Error("Not logged into Genote");
+    }
+    return trElements;
+  } catch (error) {
+    console.error(error);
+    process.exit(1);
+  }
 }
 
 async function getClasses(page, URL) {
@@ -31,6 +39,26 @@ async function cleanup() {
   await discordBot.sendMessage("Bot stopped.");
 };
 
+function getDate() {
+  const date = new Date();
+  const options = {
+    month: 'short',
+    day: '2-digit',
+    year: 'numeric',
+  };
+  return date.toLocaleString('en-US', options);
+}
+
+function getTime() {
+  const date = new Date();
+  const options = {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  };
+  return date.toLocaleString('en-US', { timeZoneName: 'short' });
+}
+
 module.exports = {
-  getClasses, getClassName, cleanup
+  getClasses, getClassName, getDate, getTime, cleanup
 }
