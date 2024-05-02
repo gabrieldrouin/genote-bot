@@ -33,5 +33,5 @@ npm install
 
 Optionally:
 - In `config.js`, set `restartChromePrompt` to `false` if your chrome instance is already running with remote debugging on port 9222
-and if you are already logged into Genote. This option is optimal for debugging purposes and to run the bot without a terminal window.
+and if you are already logged into Genote.
 
