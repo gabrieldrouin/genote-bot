@@ -1,5 +1,5 @@
 const puppeteer = require('puppeteer');
-const { getClasses, getClassName, getDate, getTime, cleanup } = require('./util');
+const { getClasses, getClassName, getDate, getTime, cleanup } = require('./utils');
 const fromChrome = require('./chromesetup');
 const discordBot = require('./discordsetup');
 const { URL, refreshTime } = require('./config');

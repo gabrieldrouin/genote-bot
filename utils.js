@@ -56,7 +56,7 @@ function getTime() {
     minute: '2-digit',
     second: '2-digit'
   };
-  return date.toLocaleString('en-US', { timeZoneName: 'short' });
+  return date.toLocaleString('en-US', options);
 }
 
 module.exports = {
