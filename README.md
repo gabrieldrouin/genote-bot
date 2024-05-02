@@ -1,12 +1,4 @@
-# Genote-Bot
-
-<blockquote>
-<p>:memo: <strong>NOTE</strong>: Developed and tested on Windows 10 only</p>
-</blockquote>
-
-
-
-## 🤖 What is Genote Bot?
+# 🤖 Genote-Bot
 
 Genote Bot is a Discord bot that notifies users whenever a new grade
 is published on a student's Genote account.
